@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,5 +27,6 @@ public class Bike {
     @Column(name = "station_id")
     private int stationId;
 
-
+    @OneToMany(mappedBy ="bike")    // Indica que he mapeado en el campo user en la clase Route que ponemos en el List
+    private List<Route> routes;
 }
