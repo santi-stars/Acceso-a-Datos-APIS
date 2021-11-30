@@ -12,4 +12,7 @@ import java.util.List;
 public interface RouteRepository extends CrudRepository<Route, Long> {
 
     List<Route>findAll();
+    List<Route>findByBike(Bike bike);
+
+    List<Route> findByBikeAndKilometers(Bike bike, int kilometers);
 }

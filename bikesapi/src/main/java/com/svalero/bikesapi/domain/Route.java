@@ -29,11 +29,11 @@ public class Route {
 
     @ManyToOne      // Tipo de relacion
     @JoinColumn(name = "bike_id")   // Tabla con la que relaciona
-    @JsonBackReference  // Para que no haga un bucle con los objetos bike y user que contienen route y a su vez
+    @JsonBackReference(value = "bike-route")  // Para que no haga un bucle con los objetos bike y user que contienen route y a su vez
     // bike y user y haría un bucle de datos al devolvernos el Json
     private Bike bike;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonBackReference(value = "user-route")
     private User user;
 }

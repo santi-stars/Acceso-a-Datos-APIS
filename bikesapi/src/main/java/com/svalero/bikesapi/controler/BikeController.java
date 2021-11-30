@@ -1,9 +1,12 @@
 package com.svalero.bikesapi.controler;
 
 import com.svalero.bikesapi.domain.Bike;
+import com.svalero.bikesapi.domain.Route;
+import com.svalero.bikesapi.domain.dto.RouteDTO;
 import com.svalero.bikesapi.exception.BikeNotFoundException;
 import com.svalero.bikesapi.exception.ErrorResponse;
 import com.svalero.bikesapi.service.BikeService;
+import com.svalero.bikesapi.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,8 @@ public class BikeController {
 
     @Autowired
     private BikeService bikeService;
+    @Autowired
+    private RouteService routeService;
 
     @GetMapping("/bikes")   // Devuelve todas las bicis en un List  http://localhost:8081/bikes?station=12
     public List<Bike> getBikesByStationId(@RequestParam(value = "station", defaultValue = "0") int stationId) {
@@ -51,6 +56,20 @@ public class BikeController {
     public Bike modifyBike(@RequestBody Bike bike, @PathVariable long id) throws BikeNotFoundException {
         Bike newBike = bikeService.modifyBike(id, bike);
         return newBike;
+    }
+
+    @GetMapping("/bike/{bikeId}/routes")
+    public List<Route> getRoutes(@PathVariable long bikeId, @RequestParam(name = "distance", defaultValue = "0") int distance)
+            throws BikeNotFoundException {
+        List<Route> routeList = null;
+
+        Bike bike = bikeService.findBike(bikeId);
+        if (distance != 0) {
+            routeList = routeService.findRoutes(bike, distance);
+        } else {
+            routeList = routeService.findRoutes(bike);
+        }
+        return routeList;
     }
 
     @ExceptionHandler(BikeNotFoundException.class)

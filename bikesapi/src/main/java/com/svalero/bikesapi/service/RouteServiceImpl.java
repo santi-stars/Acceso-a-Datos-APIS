@@ -26,12 +26,7 @@ public class RouteServiceImpl implements RouteService {
     private BikeRepository bikeRepository;
 
     @Override
-    public List<Route> findAllUsers() {
-        return null;
-    }
-
-    @Override
-    public List<Route> findByUsers() {
+    public List<Route> findAllRoutes() {
         return null;
     }
 
@@ -48,5 +43,15 @@ public class RouteServiceImpl implements RouteService {
         route.setBike(bike);
         route.setUser(user);
         return routeRepository.save(route);
+    }
+
+    @Override
+    public List<Route> findRoutes(Bike bike, int distance) {
+        return routeRepository.findByBikeAndKilometers(bike, distance);
+    }
+
+    @Override
+    public List<Route> findRoutes(Bike bike) {
+        return routeRepository.findByBike(bike);
     }
 }
